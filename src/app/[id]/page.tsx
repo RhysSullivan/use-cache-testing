@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { unstable_cacheLife as cacheLife } from "next/cache";
+import { SecondSince } from "./client";
 
 export default async function Page({
   params,
@@ -19,7 +20,7 @@ async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
   // wait 3 seconds
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const renderedAt = new Date().toISOString();
-  cacheLife({ expire: 60 });
+  cacheLife({ expire: 10 });
   return (
     <div>
       <p>
@@ -28,6 +29,7 @@ async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
       </p>
       <p>Rendered at: {renderedAt}</p>
       <p>ID: {id}</p>
+      <SecondSince start={Date.now()} />
     </div>
   );
 }
