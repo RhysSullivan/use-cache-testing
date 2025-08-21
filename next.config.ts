@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
     cacheComponents: true,
+    clientSegmentCache: true,
   },
   typescript: {
     ignoreBuildErrors: true,
