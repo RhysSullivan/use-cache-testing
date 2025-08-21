@@ -20,7 +20,7 @@ async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
   // wait 3 seconds
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const renderedAt = new Date().toISOString();
-  cacheLife({ expire: 10 });
+
   return (
     <div>
       <p>
