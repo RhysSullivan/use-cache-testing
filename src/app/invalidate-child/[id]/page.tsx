@@ -24,7 +24,6 @@ async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const data = await fetchFromCMS(id);
   const renderedAt = new Date().toISOString();
-  cacheLife("");
 
   return (
     <div>
