@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { unstable_cacheLife as cacheLife } from "next/cache";
-import { SecondSince } from "../client";
+import { SecondSince } from "../../client";
 
 export default async function Page({
   params,
@@ -13,6 +13,9 @@ export default async function Page({
     </Suspense>
   );
 }
+export const generateStaticParams = async () => {
+  return [{ id: "1" }, { id: "2" }, { id: "3" }];
+};
 
 async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
   "use cache: remote";
@@ -20,7 +23,7 @@ async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
   // wait 3 seconds
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const renderedAt = new Date().toISOString();
-  cacheLife({ expire: 20 });
+  cacheLife({ expire: 10 });
   return (
     <div>
       <p>
