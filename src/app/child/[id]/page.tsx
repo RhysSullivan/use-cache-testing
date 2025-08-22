@@ -1,6 +1,11 @@
 import { Suspense } from "react";
-import { unstable_cacheLife as cacheLife } from "next/cache";
-import { SecondSince } from "../client";
+import {
+  unstable_cacheLife as cacheLife,
+  unstable_cacheTag as cacheTag,
+  revalidateTag,
+} from "next/cache";
+import { SecondSince } from "../../client";
+import { InvalidateButton } from "./client";
 
 export default async function Page({
   params,
@@ -17,19 +22,23 @@ export default async function Page({
 async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
   "use cache: remote";
   const { id } = await params;
-  // wait 3 seconds
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  const data = await fetchFromCMS(id);
   const renderedAt = new Date().toISOString();
+  cacheLife({ expire: 60 });
 
   return (
     <div>
-      <p>
-        This page has a top level 'use cache' and is accessing no dynamic data.
-        There is no cache tags or cache life on it
-      </p>
       <p>Rendered at: {renderedAt}</p>
-      <p>ID: {id}</p>
+      <p>ID: {data.id}</p>
+      <InvalidateButton id={id} />
       <SecondSince start={Date.now()} />
     </div>
   );
+}
+
+async function fetchFromCMS(id: string) {
+  "use cache: remote";
+  cacheTag(id);
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  return { id };
 }
