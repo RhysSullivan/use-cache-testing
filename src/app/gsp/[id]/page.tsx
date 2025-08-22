@@ -7,11 +7,7 @@ export default async function Page({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <DynamicPage params={params} />
-    </Suspense>
-  );
+  return <DynamicPage params={params} />;
 }
 export const generateStaticParams = async () => {
   return [{ id: "1" }, { id: "2" }, { id: "3" }];
@@ -23,7 +19,7 @@ async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
   // wait 3 seconds
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const renderedAt = new Date().toISOString();
-  cacheLife({ expire: 10 });
+  cacheLife({ revalidate: 10 });
   return (
     <div>
       <p>
