@@ -1,11 +1,6 @@
 import { Suspense } from "react";
-import {
-  unstable_cacheLife as cacheLife,
-  unstable_cacheTag as cacheTag,
-  revalidateTag,
-} from "next/cache";
+import { unstable_cacheLife as cacheLife } from "next/cache";
 import { SecondSince } from "../../client";
-import { InvalidateButton } from "./client";
 
 export default async function Page({
   params,
@@ -24,13 +19,12 @@ async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const data = await fetchFromCMS(id);
   const renderedAt = new Date().toISOString();
-  cacheLife({ expire: 60 });
+  cacheLife({ expire: 20 });
 
   return (
     <div>
       <p>Rendered at: {renderedAt}</p>
       <p>ID: {data.id}</p>
-      <InvalidateButton id={id} />
       <SecondSince start={Date.now()} />
     </div>
   );
@@ -38,7 +32,7 @@ async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
 
 async function fetchFromCMS(id: string) {
   "use cache: remote";
-  cacheTag(id);
+  cacheLife({ revalidate: 10 });
   await new Promise((resolve) => setTimeout(resolve, 3000));
   return { id };
 }
