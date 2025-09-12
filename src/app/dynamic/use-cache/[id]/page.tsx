@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import { checkAuth } from "../../data";
+import { unstable_cacheLife as cacheLife } from "next/cache";
+
 async function getData() {
     'use cache';
     await new Promise((resolve) => setTimeout(resolve, 3000));
