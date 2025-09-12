@@ -3,8 +3,6 @@ import { checkAuth } from "../../data";
 async function getData() {
     'use cache';
     // wait .1 seconds then throw
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    throw new Error("test");
     await new Promise((resolve) => setTimeout(resolve, 3000));
     return {
         data: new Date().toISOString(),
