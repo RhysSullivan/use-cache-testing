@@ -1,12 +1,13 @@
 import { notFound } from "next/navigation";
 import { checkAuth } from "../../data";
 import { unstable_cacheLife as cacheLife } from "next/cache";
-
+import { GitHubApi } from "../../github-api";
 async function getData() {
     'use cache';
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    const githubApi = new GitHubApi();
+    const data = await githubApi.getPullRequestReviewComments("facebook", "react", '34394');
     return {
-        data: new Date().toISOString(),
+        data: data,
     };
 }
 
@@ -25,7 +26,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     const data = await getData();
     return <div>Use Cache Remote
         <p>Auth: {auth ? "true" : "false"}</p>
-        <p>Data: {data.data}</p>
+        <p>Data: {JSON.stringify(data.data)}</p>
         <p>ID: {id}</p>
     </div>;
 }
