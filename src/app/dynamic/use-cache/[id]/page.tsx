@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { checkAuth } from "../../data";
 async function getData() {
     'use cache';
@@ -10,6 +11,9 @@ async function getData() {
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const auth = await checkAuth();
+    if(!auth){
+        notFound();
+      }
     const data = await getData();
     return <div>Use Cache Remote
         <p>Auth: {auth ? "true" : "false"}</p>
