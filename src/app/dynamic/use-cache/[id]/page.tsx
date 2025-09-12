@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { checkAuth } from "../../data";
 import { unstable_cacheLife as cacheLife } from "next/cache";
 import { GitHubApi } from "../../github-api";
-async function getData() {
+async function getData(params: {id: string}) {
     'use cache'
     const api = new GitHubApi();
   const owner = "facebook";
@@ -42,8 +42,8 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     if(!auth){
         notFound();
       }
-    const data = await getData();
-    return <div>Use Cache Remote
+    const data = await getData({id});
+    return <div>Use Cache
         <p>Auth: {auth ? "true" : "false"}</p>
         <p>Data: {JSON.stringify(data)}</p>
         <p>ID: {id}</p>
