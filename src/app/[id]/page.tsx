@@ -23,13 +23,10 @@ async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
   cacheLife({ expire: 20 });
   return (
     <div>
-      <p>
-        This page has a top level 'use cache' and is accessing no dynamic data.
-        There is no cache tags or cache life on it
-      </p>
       <p>Rendered at: {renderedAt}</p>
       <p>ID: {id}</p>
       <SecondSince start={Date.now()} />
+      <a href='https://github.com/RhysSullivan/use-cache-testing/blob/main/src/app/%5Bid%5D/page.tsx'>View code</a>
     </div>
   );
 }
