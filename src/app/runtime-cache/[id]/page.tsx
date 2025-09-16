@@ -22,7 +22,7 @@ async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const renderedAt = new Date().toISOString();
   cacheLife({ expire: 60 });
-  cacheTag('runtime-cache-id');
+  cacheTag(`runtime-cache-${id}`);
   return (
     <div>
       <p>Rendered at: {renderedAt}</p>

@@ -9,6 +9,6 @@ export async function GET(request: NextRequest,   { params }: { params: Promise<
     if(!id){
         return new Response('No id provided', { status: 400 });
     }
-    const data = await cache.get(id);
+    const data = await cache.get(`runtime-cache-${id}`);
     return new Response(JSON.stringify(data), { status: 200 });
 }
