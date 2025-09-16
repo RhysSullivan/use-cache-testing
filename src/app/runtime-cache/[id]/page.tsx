@@ -21,18 +21,26 @@ global.fetch = async (url, options) => {
   return fetch(url, options);
 }
 
-
-async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
+async function getData(id: string) {
   "use cache: remote";
-  const { id } = await params;
   // wait 3 seconds
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const renderedAt = new Date().toISOString();
   cacheLife({ expire: 60 });  
   cacheTag(`runtime-cache-${id}`);
+  return {
+    renderedAt,
+    id,
+  };
+}
+
+async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
+  
+  const { id } = await params;
+  const data = await getData(id);
   return (
     <div>
-      <p>Rendered at: {renderedAt}</p>
+      <p>Rendered at: {data.renderedAt}</p>
       <p>ID: {id}</p>
       <SecondSince start={Date.now()} />
       <p>Cache expires in 60 seconds</p>
