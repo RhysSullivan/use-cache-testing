@@ -15,13 +15,20 @@ export default async function Page({
   );
 }
 
+// override global fetch to log all of the requests
+global.fetch = async (url, options) => {
+  console.log('fetch', url, options);
+  return fetch(url, options);
+}
+
+
 async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
   "use cache: remote";
   const { id } = await params;
   // wait 3 seconds
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const renderedAt = new Date().toISOString();
-  cacheLife({ expire: 60 });
+  cacheLife({ expire: 60 });  
   cacheTag(`runtime-cache-${id}`);
   return (
     <div>
