@@ -8,15 +8,15 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <DynamicPage params={params} />
-    </Suspense>
+        <DynamicPage params={params} /> 
   );
 }
 
 async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
   "use cache";
   const { id } = await params;
+  // wait 3 seconds
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   const renderedAt = new Date().toISOString();
   cacheLife({ expire: 60 });
   cacheTag(`user-${id}`);
