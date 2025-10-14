@@ -14,10 +14,7 @@ export default async function Page({
 }
 
 async function getUser(id: string) {
-    'use cache'
     await new Promise((resolve) => setTimeout(resolve, 3000));
-    cacheTag(`user-${id}`);
-    cacheLife({ expire: 60 });
   return {
     id,
     name: "John Doe",
