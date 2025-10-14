@@ -1,6 +1,5 @@
 import { Suspense } from "react";
-import { unstable_cacheLife as cacheLife } from "next/cache";
-import { cacheTag } from "next/dist/server/use-cache/cache-tag";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { SecondSince } from "@/app/client";
 
 export default async function Page({
@@ -13,6 +12,7 @@ export default async function Page({
       <DynamicPage params={params} />
     </Suspense>
   );
+  
 }
 
 async function getUser(id: string) {
