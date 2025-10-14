@@ -8,7 +8,10 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   return (
+    <Suspense fallback={<div>Loading...</div>}>
+
         <DynamicPage params={params} /> 
+    </Suspense>
   );
 }
 
