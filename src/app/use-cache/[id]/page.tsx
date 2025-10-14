@@ -8,15 +8,13 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
       <DynamicPage params={params} />
-    </Suspense>
   );
 
 }
 
 async function getUser(id: string) {
-    'use cache: remote'
+    'use cache'
     await new Promise((resolve) => setTimeout(resolve, 3000));
     cacheTag(`user-${id}`);
     cacheLife({ expire: 60 });
