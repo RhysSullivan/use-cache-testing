@@ -12,11 +12,11 @@ export default async function Page({
       <DynamicPage params={params} />
     </Suspense>
   );
-  
+
 }
 
 async function getUser(id: string) {
-    'use cache'
+    'use cache: remote'
     await new Promise((resolve) => setTimeout(resolve, 3000));
     cacheTag(`user-${id}`);
     cacheLife({ expire: 60 });
