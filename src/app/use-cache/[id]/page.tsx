@@ -25,6 +25,7 @@ async function getUser(id: string) {
 }
 
 async function DynamicPage({ params }: { params: Promise<{ id: string }> }) {
+  'use cache'
   const { id } = await params;
   const user = await getUser(id);
   const renderedAt = new Date().toISOString();
